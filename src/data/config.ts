@@ -30,7 +30,7 @@ const config = {
     return this.site + "/assets/seo/og-image.png";
   },
   social: {
-    twitter: "https://x.com/nothotchaddi",
+    twitter: "",
     instagram: "https://www.instagram.com/ng_cong11",
     facebook: "https://www.facebook.com/share/1CirzW9Wm5/?mibextid=wwXIfr",
     github: "https://github.com/congnguyenhuucnc-bot",
