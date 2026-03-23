@@ -1,21 +1,20 @@
 const config = {
-  title: "Naresh Khatri | Full-Stack Developer",
+  title: "Nguyen Huu Cong | Full-Stack Developer",
   description: {
-    long: "Explore the portfolio of Naresh, a full-stack developer and creative technologist specializing in interactive web experiences, 3D animations, and innovative projects. Discover my latest work, including Coding Ducks, The Booking Desk, Ghostchat, and more. Let's build something amazing together!",
+    long: "Nguyen Huu Cong's portfolio showcases his expertise as a full-stack developer, featuring innovative web projects, 3D animations, and interactive experiences that highlight his skills in modern web technologies.",
     short:
-      "Discover the portfolio of Naresh, a full-stack developer creating interactive web experiences and innovative projects.",
+      "Nguyen Huu Cong's portfolio - Full-Stack Developer specializing in innovative web solutions and interactive experiences.",
   },
   keywords: [
-    "Naresh",
+    "Nguyen Huu Cong",
     "portfolio",
     "full-stack developer",
     "creative technologist",
     "web development",
     "3D animations",
-    "interactive websites",
-    "Coding Ducks",
-    "The Booking Desk",
-    "Ghostchat",
+    "UI UX design",
+    "developer from Vietnam",
+    "hire web developer",
     "web design",
     "GSAP",
     "React",
@@ -23,19 +22,21 @@ const config = {
     "Spline",
     "Framer Motion",
   ],
-  author: "Naresh Khatri",
-  email: "naresh.khatri2345@gmail.com",
-  site: "https://nareshkhatri.site",
+  author: "Nguyen Huu Cong",
+  email: "congnguyenhuucnc@gmail.com",
+  site: "https://nguyencongit.com",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
   },
   social: {
     twitter: "https://x.com/nothotchaddi",
-    linkedin: "https://www.linkedin.com/in/naresh-khatri/",
-    instagram: "https://www.instagram.com/hotchaddi",
-    facebook: "https://www.facebook.com/HotChaddi/",
-    github: "https://github.com/Naresh-Khatri",
+    instagram: "https://www.instagram.com/ng_cong11",
+    facebook: "https://www.facebook.com/share/1CirzW9Wm5/?mibextid=wwXIfr",
+    github: "https://github.com/congnguyenhuucnc-bot",
+    youtube: "https://www.youtube.com/@congvlogs1523",
+    tiktok: "https://www.tiktok.com/@cong130303?_t=ZS-907r9luAWMm&_r=1",
+    messenger: "https://m.me/cong.nguyenhuu.cnc",
   },
 };
 export { config };

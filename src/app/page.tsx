@@ -8,6 +8,7 @@ import SkillsSection from "@/components/sections/skills";
 import ProjectsSection from "@/components/sections/projects";
 import ContactSection from "@/components/sections/contact";
 import HeroSection from "@/components/sections/hero";
+import MusicPlayer from "@/components/MusicPlayer";
 
 function MainPage() {
   return (
@@ -23,6 +24,9 @@ function MainPage() {
           <ContactSection />
         </main>
       </SmoothScroll>
+
+      {/* 🎧 Player nằm ở góc phải dưới */}
+      <MusicPlayer />
     </>
   );
 }

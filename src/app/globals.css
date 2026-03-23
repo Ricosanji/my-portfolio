@@ -1,7 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@import "./../styles/music-player.css";
 body {
   scroll-behavior: smooth;
 }

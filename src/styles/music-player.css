@@ -1,0 +1,373 @@
+/* ==== 🎧 DIE FOR YOU VINYL DISC (CÓ ẢNH ALBUM) ==== */
+
+/* === Khối đĩa ngoài === */
+.mm-disc {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 50%, #111 0%, #000 80%);
+  box-shadow: inset 0 0 18px rgba(255,255,255,0.05),
+              0 10px 26px rgba(0,0,0,0.6);
+  cursor: pointer;
+  z-index: 10000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.mm-disc:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 25px rgba(92,255,141,0.8), 0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* === Phần xoay === */
+.mm-disc-rotor {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  animation: spinDisc 6s linear infinite;
+  transform-origin: center;
+}
+
+/* Khi pause: dừng xoay */
+.mm-disc.paused .mm-disc-rotor {
+  animation-play-state: paused;
+}
+
+/* === Bề mặt đĩa chứa ảnh & ánh sáng === */
+.mm-disc-surface {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: repeating-radial-gradient(
+    circle,
+    rgba(255,255,255,0.05) 0px,
+    rgba(0,0,0,0.25) 1px,
+    transparent 2px,
+    transparent 3px
+  );
+}
+
+/* === Ảnh album === */
+.mm-album {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--cover-img, url('/image/theweekend.jpg')) center/cover no-repeat;
+  box-shadow: 0 0 8px rgba(0,0,0,0.6), inset 0 0 8px rgba(255,255,255,0.1);
+  z-index: 3;
+}
+
+/* === Ánh sáng phản chiếu === */
+.mm-disc-gloss {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.18) 0deg,
+    rgba(0,0,0,0.3) 40deg,
+    rgba(255,255,255,0.18) 80deg,
+    rgba(0,0,0,0.35) 120deg,
+    rgba(255,255,255,0.15) 180deg,
+    rgba(0,0,0,0.3) 270deg,
+    rgba(255,255,255,0.18) 360deg
+  );
+  mix-blend-mode: overlay;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* === Lỗ trung tâm === */
+.mm-disc-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, #222 0%, #000 80%);
+  box-shadow: inset 0 0 2px rgba(255,255,255,0.3);
+  z-index: 4;
+}
+
+/* Xoay tổng thể */
+@keyframes spinDisc {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* ---- Player chính ---- */
+.mm-player {
+  position: fixed;
+  right: 24px;
+  bottom: 140px;
+  width: 320px;
+  backdrop-filter: blur(16px);
+  background: linear-gradient(180deg, rgba(28,28,34,.86), rgba(20,20,26,.9));
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 14px;
+  color: #f4f6ff;
+  font: 12px/1.35 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  display: none;
+  z-index: 10001;
+}
+.mm-player.show {
+  display: block;
+  animation: mmFade .18s ease-out;
+}
+@keyframes mmFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.mm-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.mm-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.mm-cover {
+  width: 46px;
+  height: 46px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+.mm-title-wrap { min-width: 0; }
+.mm-title {
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mm-artist {
+  opacity: .75;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---- Buttons ---- */
+.mm-btn {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .06s ease, background .2s ease;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
+.mm-btn:hover { background: rgba(255,255,255,.12); }
+.mm-btn:active { transform: translateY(1px); }
+.mm-primary {
+  width: 42px;
+  height: 42px;
+  background: #5cff8d;
+  color: #111;
+  font-weight: 700;
+}
+
+/* ---- Controls ---- */
+.mm-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 10px 0 6px;
+}
+.mm-time {
+  margin-left: auto;
+  font-variant-numeric: tabular-nums;
+  opacity: .85;
+}
+
+/* ---- Seek bar ---- */
+.mm-seek {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #5cff8d 0%, #5cff8d var(--p,0%), #ffffff33 var(--p,0%), #ffffff33 100%);
+}
+.mm-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,.35);
+}
+
+/* ---- Volume ---- */
+.mm-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+.mm-vol-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: .9;
+}
+.mm-vol { width: 120px; accent-color: #5cff8d; }
+
+/* ---- Visualizer ---- */
+.mm-viz {
+  width: 100%;
+  display: block;
+  margin-top: 8px;
+  border-radius: 10px;
+  background: linear-gradient(180deg, #ffffff07, #00000010);
+}
+
+/* ---- Mobile ---- */
+@media (max-width: 480px) {
+  .mm-player { right: 14px; left: 14px; width: auto; bottom: 140px; }
+  .mm-disc { right: 16px; bottom: 18px; }
+}
+
+/* 🌪️ Hiệu ứng hút vào/ra từ đĩa */
+.mm-player {
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: scale(0.4) translate(60%, 60%);
+  transition:
+    transform 0.45s cubic-bezier(0.45, 0, 0.25, 1),
+    opacity 0.4s ease;
+}
+.mm-player.show {
+  display: block;
+  opacity: 1;
+  transform: scale(1) translate(0, 0);
+}
+.mm-player.suck-in {
+  transform: scale(0.1) translate(60%, 60%);
+  opacity: 0;
+  transition:
+    transform 0.45s cubic-bezier(0.6, 0, 0.25, 1),
+    opacity 0.35s ease-in;
+}
+
+/* 💿 Đĩa phát sáng khi player bật */
+.mm-disc.active {
+  box-shadow:
+    0 0 25px rgba(92, 255, 141, 0.8),
+    inset 0 0 8px rgba(255,255,255,0.3);
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+}
+/* === 🌈 LED RGB quanh đĩa (tỏa sáng nhẹ, theo nhạc) === */
+/* 🌈 LED RGB quanh đĩa nháy theo nhạc */
+.mm-disc::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+ 
+  background-clip: content-box;
+  padding: 2px;
+  filter: blur(3px) brightness(var(--led-bright, 1));
+  opacity: 0.6;
+  animation: ledRotate 4s linear infinite;
+  mix-blend-mode: screen;
+  z-index: -1;
+  pointer-events: none;
+  transition: filter 0.15s ease, opacity 0.15s ease, transform 0.15s ease;
+}
+
+/* Khi phát nhạc, vòng LED sẽ sáng mạnh hơn và "thở" */
+.mm-disc.playing::after {
+  opacity: 0.8;
+  filter: blur(5px) brightness(calc(var(--led-bright, 1.2)));
+}
+
+@keyframes ledRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* === Thanh tiến trình nhạc (seek bar) === */
+/* === Thanh tiến trình nhạc (seek bar) === */
+.mm-seek-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.mm-seek {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #5cff8d var(--progress, 0%),
+    #ffffff33 var(--progress, 0%),
+    #ffffff33 100%
+  );
+  outline: none;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.mm-seek::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #5cff8d;
+  box-shadow: 0 0 6px rgba(92, 255, 141, 0.8);
+  cursor: pointer;
+}
+
+.mm-seek::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #5cff8d;
+  border: none;
+  box-shadow: 0 0 6px rgba(92, 255, 141, 0.8);
+  cursor: pointer;
+}
+
+.mm-time {
+  font-size: 12px;
+  color: #ddd;
+  min-width: 60px;
+  text-align: right;
+  opacity: 0.85;
+}
+
+

@@ -11,7 +11,7 @@ import {
 import { usePreloader } from "../preloader";
 import { BlurIn, BoxReveal } from "../reveal-animations";
 import ScrollDownIcon from "../scroll-down-icon";
-import { SiGithub, SiLinkedin } from "react-icons/si";
+import { SiFacebook, SiGithub, SiLinkedin, SiMessenger } from "react-icons/si";
 import { config } from "@/data/config";
 
 const HeroSection = () => {
@@ -51,21 +51,12 @@ const HeroSection = () => {
                           "cursor-default text-edge-outline font-display sm:text-7xl md:text-9xl "
                         )}
                       >
-                        {config.author.split(" ")[0]}
+                        {config.author}
                         <br className="md:block hiidden" />
-                        {config.author.split(" ")[1]}
-                        {/* PLEASE hello??
-
-                        <br className="md:block hiidden" />
-                        UNMUTE ME 😢😢 */}
+    
                       </h1>
                     </TooltipTrigger>
-                    <TooltipContent
-                      side="top"
-                      className="dark:bg-white dark:text-black"
-                    >
-                      theres something waiting for you in devtools
-                    </TooltipContent>
+                    
                   </Tooltip>
                 </BlurIn>
                 {/* <div className="md:block hidden bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 w-screen h-px animate-fade-right animate-glow" /> */}
@@ -82,16 +73,14 @@ const HeroSection = () => {
               </div>
               <div className="mt-8 md:ml-2 flex flex-col gap-3">
                 <Link
-                  href={
-                    "https://drive.google.com/file/d/1O97WCk2DrO9x6SHOqf7LvRbmHkMgGIb4/view?usp=sharing"
-                  }
+                  href={config.social.messenger}
                   target="_blank"
                   className="flex-1"
                 >
                   <BoxReveal delay={2} width="100%" >
                     <Button className="flex items-center gap-2 w-full">
-                      <File size={24} />
-                      <p>Resume</p>
+                      <SiMessenger size={24} />
+                      <p>Messenger</p>
                     </Button>
                   </BoxReveal>
                 </Link>
@@ -103,12 +92,12 @@ const HeroSection = () => {
                           variant={"outline"}
                           className="block w-full overflow-hidden"
                         >
-                          Hire Me
+                          Hire Me 🪄
                         </Button>
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
-                      <p>pls 🥹 🙏</p>
+                      <p>Your idea, my code!💻✨</p>
                     </TooltipContent>
                   </Tooltip>
                   <Link
@@ -120,11 +109,11 @@ const HeroSection = () => {
                     </Button>
                   </Link>
                   <Link
-                    href={config.social.linkedin}
+                    href={config.social.facebook}
                     target="_blank"
                   >
                     <Button variant={"outline"}>
-                      <SiLinkedin size={24} />
+                      <SiFacebook size={24} />
                     </Button>
                   </Link>
                 </div>

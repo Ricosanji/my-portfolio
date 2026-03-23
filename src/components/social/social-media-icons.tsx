@@ -3,26 +3,30 @@
 import { useInView } from "framer-motion";
 import React, { useRef } from "react";
 import { Button } from "../ui/button";
-import { SiGithub, SiInstagram, SiLinkedin, SiTwitter } from "react-icons/si";
-import { Linkedin } from "lucide-react";
+import { SiFacebook, SiGithub, SiInstagram, SiTiktok, SiYoutube } from "react-icons/si";
 import { config } from "@/data/config";
 import Link from "next/link";
 
 const BUTTONS = [
   {
-    name: "Github",
+    name: "Facebook",
+    href: config.social.facebook,
+    icon: <SiFacebook size={"24"} color={"#fff"} />,
+  },
+  {
+    name: "Youtube",
+    href: config.social.youtube,
+    icon: <SiYoutube size={"24"} color={"#fff"} />,
+  },
+  {
+    name: "TikTok",
+    href: config.social.tiktok,
+    icon: <SiTiktok size={"24"} color={"#fff"} />,
+  },
+  {
+    name: "GitHub",
     href: config.social.github,
     icon: <SiGithub size={"24"} color={"#fff"} />,
-  },
-  {
-    name: "LinkedIn",
-    href: config.social.linkedin,
-    icon: <SiLinkedin size={"24"} color={"#fff"} />,
-  },
-  {
-    name: "Twitter",
-    href: config.social.twitter,
-    icon: <SiTwitter size={"24"} color={"#fff"} />,
   },
   {
     name: "Instagram",
@@ -30,7 +34,7 @@ const BUTTONS = [
     icon: <SiInstagram size={"24"} color={"#fff"} />,
   },
 ];
-
+ 
 const SocialMediaButtons = () => {
   const ref = useRef<HTMLDivElement>(null);
   const show = useInView(ref, { once: true });
