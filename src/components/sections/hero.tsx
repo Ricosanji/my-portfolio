@@ -13,7 +13,6 @@ import { BlurIn, BoxReveal } from "../reveal-animations";
 import ScrollDownIcon from "../scroll-down-icon";
 import { SiFacebook, SiGithub, SiLinkedin, SiMessenger } from "react-icons/si";
 import { config } from "@/data/config";
-import { File } from "lucide-react";
 
 const HeroSection = () => {
   const { isLoading } = usePreloader();
