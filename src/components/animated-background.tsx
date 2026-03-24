@@ -21,7 +21,7 @@ const STATES = {
     },
     mobile: {
       scale: { x: 0.15, y: 0.15, z: 0.15 },
-      position: { x: 0, y: -200, z: 0 },
+      position: { x: 0, y: -350, z: 0 },
       rotation: { x: 0, y: 0, z: 0 },
     },
   },
@@ -115,7 +115,6 @@ const AnimatedBackground = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const splineContainer = useRef<HTMLDivElement>(null);
   const [splineApp, setSplineApp] = useState<Application>();
-  const [splineLoaded, setSplineLoaded] = useState(false);
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [activeSection, setActiveSection] = useState<Section>("hero");
@@ -127,20 +126,6 @@ const AnimatedBackground = () => {
     start: () => void;
     stop: () => void;
   }>();
-
-  // Pause/Resume Spline based on tab visibility
-  useEffect(() => {
-    const handleVisibility = () => {
-      if (!splineApp) return;
-      if (document.hidden) {
-        splineApp.stop();
-      } else {
-        splineApp.play();
-      }
-    };
-    document.addEventListener("visibilitychange", handleVisibility);
-    return () => document.removeEventListener("visibilitychange", handleVisibility);
-  }, [splineApp]);
 
   const keyboardStates = (section: Section) => {
     return STATES[section][isMobile ? "mobile" : "desktop"];
@@ -231,11 +216,11 @@ const AnimatedBackground = () => {
       if (!kbd) return;
       rotateKeyboard = gsap.to(kbd.rotation, {
         y: Math.PI * 2 + kbd.rotation.y,
-        duration: 15,
+        duration: 10,
         repeat: -1,
         yoyo: true,
         yoyoEase: true,
-        ease: "sine.inOut",
+        ease: "back.inOut",
         delay: 2.5,
       });
       teardownKeyboard = gsap.fromTo(
@@ -516,7 +501,7 @@ const AnimatedBackground = () => {
           frame2.visible = false;
         }
         i++;
-      }, 200);
+      }, 100);
     };
     const stop = () => {
       clearInterval(interval);
@@ -532,19 +517,19 @@ const AnimatedBackground = () => {
     let tweens: gsap.core.Tween[] = [];
     const start = () => {
       removePrevTweens();
-      const skills = Object.values(SKILLS).sort(() => Math.random() - 0.5);
-      // Chỉ animate 12 keycap thay vì 24 để giảm load
-      skills.slice(0, 12).forEach((skill, idx) => {
+      Object.values(SKILLS)
+        .sort(() => Math.random() - 0.5)
+        .forEach((skill, idx) => {
           const keycap = splineApp.findObjectByName(skill.name);
           if (!keycap) return;
           const t = gsap.to(keycap?.position, {
             y: Math.random() * 200 + 200,
-            duration: Math.random() * 2 + 3,
-            delay: idx * 0.8,
+            duration: Math.random() * 2 + 2,
+            delay: idx * 0.6,
             repeat: -1,
             yoyo: true,
             yoyoEase: "none",
-            ease: "power2.inOut",
+            ease: "elastic.out(1,0.3)",
           });
           tweens.push(t);
         });
@@ -556,39 +541,32 @@ const AnimatedBackground = () => {
         if (!keycap) return;
         const t = gsap.to(keycap?.position, {
           y: 0,
-          duration: 2,
-          ease: "power2.out",
+          duration: 4,
+          repeat: 1,
+          ease: "elastic.out(1,0.8)",
         });
         tweens.push(t);
       });
-      setTimeout(removePrevTweens, 2500);
+      setTimeout(removePrevTweens, 1000);
     };
     const removePrevTweens = () => {
       tweens.forEach((t) => t.kill());
-      tweens = [];
     };
     return { start, stop };
   };
   return (
-    <div
-      style={{
-        opacity: splineLoaded ? 1 : 0,
-        transition: "opacity 0.5s ease",
-        contain: "layout style paint",
-      }}
-    >
+    <>
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           ref={splineContainer}
           onLoad={(app: Application) => {
             setSplineApp(app);
-            setSplineLoaded(true);
             bypassLoading();
           }}
           scene="/assets/skills-keyboard.spline"
         />
       </Suspense>
-    </div>
+    </>
   );
 };
 

@@ -111,6 +111,14 @@ const HeroSection = () => {
                       <SiFacebook size={24} />
                     </Button>
                   </Link>
+                  <Link
+                    href={config.social.linkedin}
+                    target="_blank"
+                  >
+                    <Button variant={"outline"}>
+                      <SiLinkedin size={24} />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </>

@@ -24,7 +24,7 @@ const config = {
   ],
   author: "Nguyen Huu Cong",
   email: "congnguyenhuucnc@gmail.com",
-  site: "https://nguyencongit.com",
+  site: "https://me.nguyencongit.com",
 
   get ogImg() {
     return this.site + "/assets/seo/og-image.png";
@@ -33,10 +33,11 @@ const config = {
     twitter: "",
     instagram: "https://www.instagram.com/ng_cong11",
     facebook: "https://www.facebook.com/share/1CirzW9Wm5/?mibextid=wwXIfr",
-    github: "https://github.com/congnguyenhuucnc-bot",
+    github: "https://github.com/Ricosanji/Ricosanji",
     youtube: "https://www.youtube.com/@congvlogs1523",
     tiktok: "https://www.tiktok.com/@cong130303?_t=ZS-907r9luAWMm&_r=1",
     messenger: "https://m.me/cong.nguyenhuu.cnc",
+    linkedin: "https://www.linkedin.com/in/c%C3%B4ng-nguy%E1%BB%85n-h%E1%BB%AFu-3a07763b7/",
   },
 };
 export { config };

@@ -55,9 +55,15 @@ const CONTACT_LINKS = [
   },
   {
     name: "GitHub",
-    href: "https://github.com/congnguyenhuucnc-bot",
-    content: "/congnguyenhuucnc-bot",
+    href: "https://github.com/Ricosanji/Ricosanji",
+    content: "/Ricosanji",
     icon: <FaGithub height={"50px"} />,
+  },
+  {
+    name: "LinkedIn",
+    href: "https://www.linkedin.com/in/c%C3%B4ng-nguy%E1%BB%85n-h%E1%BB%AFu-3a07763b7/",
+    content: "/congnguyenhuucnc",
+    icon: <FaLinkedin height={"50px"} />,
   },
 ];
 

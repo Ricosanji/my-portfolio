@@ -177,7 +177,8 @@ export default function MusicPlayer() {
     const disc = document.getElementById("mmDisc");
 
     const render = () => {
-      analyser.getByteFrequencyData(data);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      analyser.getByteFrequencyData(data as any);
       c.clearRect(0, 0, w, h);
 
       const bars = 48;
