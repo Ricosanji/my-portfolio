@@ -71,20 +71,14 @@ export default function MusicPlayer() {
 
     const tryResume = async () => {
       try {
-        if (!ctxData) initAudio();
-        setTimeout(async () => {
-          const currentCtx =
-            ctxData?.ctx ||
-            new (window.AudioContext || (window as any).webkitAudioContext)();
-          if (currentCtx.state === "suspended") await currentCtx.resume();
-          if (!audio.paused) drawViz();
-        }, 300);
+        if (!ctxData) return; // Chờ user click play mới init
+        if (ctxData.ctx.state === "suspended") await ctxData.ctx.resume();
+        if (!audio.paused) drawViz();
       } catch (e) {
-        console.warn("Auto-resume visualizer failed:", e);
+        // Ignore - sẽ resume khi user interact
       }
     };
 
-    tryResume();
     const unlock = () => {
       tryResume();
       document.removeEventListener("click", unlock);
@@ -155,17 +149,21 @@ export default function MusicPlayer() {
   // ====== Setup audio ======
   const initAudio = () => {
     if (ctxData) return;
-    const ctx = new (window.AudioContext ||
-      (window as any).webkitAudioContext)();
-    const audioEl = audioRef.current;
-    if (!audioEl) return;
-    const src = ctx.createMediaElementSource(audioEl);
-    const analyser = ctx.createAnalyser();
-    analyser.fftSize = 512;
-    const data = new Uint8Array(analyser.frequencyBinCount);
-    src.connect(analyser);
-    analyser.connect(ctx.destination);
-    setCtxData({ ctx, analyser, data });
+    try {
+      const ctx = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
+      const audioEl = audioRef.current;
+      if (!audioEl) return;
+      const src = ctx.createMediaElementSource(audioEl);
+      const analyser = ctx.createAnalyser();
+      analyser.fftSize = 512;
+      const data = new Uint8Array(analyser.frequencyBinCount);
+      src.connect(analyser);
+      analyser.connect(ctx.destination);
+      setCtxData({ ctx, analyser, data });
+    } catch (e) {
+      // Already connected - ignore
+    }
   };
 
   // ====== Vẽ visualizer ======
@@ -228,10 +226,7 @@ export default function MusicPlayer() {
     setTimeout(async () => {
       const audio = audioRef.current;
       if (!audio) return;
-      const currentCtx =
-        ctxData?.ctx ||
-        new (window.AudioContext || (window as any).webkitAudioContext)();
-      if (currentCtx.state === "suspended") await currentCtx.resume();
+      if (ctxData?.ctx?.state === "suspended") await ctxData.ctx.resume();
 
       if (audio.paused) {
         await audio.play();

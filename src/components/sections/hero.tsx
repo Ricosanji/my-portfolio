@@ -43,8 +43,6 @@ const HeroSection = () => {
                   </p>
                 </BlurIn>
                 <BlurIn delay={1}>
-                  <Tooltip delayDuration={300}>
-                    <TooltipTrigger asChild>
                       <h1
                         className={cn(
                           "font-thin text-6xl text-transparent text-slate-800 ml-1 text-left",
@@ -55,9 +53,6 @@ const HeroSection = () => {
                         <br className="md:block hiidden" />
     
                       </h1>
-                    </TooltipTrigger>
-                    
-                  </Tooltip>
                 </BlurIn>
                 {/* <div className="md:block hidden bg-gradient-to-r from-zinc-300/0 via-zinc-300/50 to-zinc-300/0 w-screen h-px animate-fade-right animate-glow" /> */}
                 <BlurIn delay={1.2}>

@@ -72,3 +72,18 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+/* Performance optimizations */
+canvas {
+  will-change: transform;
+}
+
+.mm-disc,
+.mm-player {
+  will-change: transform;
+  contain: layout style;
+}
+
+#jelly-id {
+  will-change: transform, width, height;
+}

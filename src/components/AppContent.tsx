@@ -20,7 +20,7 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
   return (
     <ThemeProvider attribute="class" defaultTheme="dark" disableTransitionOnChange>
       {mode !== "ultra-lite" && (
-        <Particles className="fixed inset-0 -z-10 animate-fade-in" quantity={100} />
+        <Particles className="fixed inset-0 -z-10 animate-fade-in" quantity={50} />
       )}
       <Preloader>
         <TooltipProvider>

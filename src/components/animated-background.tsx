@@ -9,7 +9,6 @@ import { sleep } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { usePreloader } from "./preloader";
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -116,6 +115,7 @@ const AnimatedBackground = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const splineContainer = useRef<HTMLDivElement>(null);
   const [splineApp, setSplineApp] = useState<Application>();
+  const [splineLoaded, setSplineLoaded] = useState(false);
 
   const [selectedSkill, setSelectedSkill] = useState<Skill | null>(null);
   const [activeSection, setActiveSection] = useState<Section>("hero");
@@ -127,6 +127,20 @@ const AnimatedBackground = () => {
     start: () => void;
     stop: () => void;
   }>();
+
+  // Pause/Resume Spline based on tab visibility
+  useEffect(() => {
+    const handleVisibility = () => {
+      if (!splineApp) return;
+      if (document.hidden) {
+        splineApp.stop();
+      } else {
+        splineApp.play();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => document.removeEventListener("visibilitychange", handleVisibility);
+  }, [splineApp]);
 
   const keyboardStates = (section: Section) => {
     return STATES[section][isMobile ? "mobile" : "desktop"];
@@ -217,11 +231,11 @@ const AnimatedBackground = () => {
       if (!kbd) return;
       rotateKeyboard = gsap.to(kbd.rotation, {
         y: Math.PI * 2 + kbd.rotation.y,
-        duration: 10,
+        duration: 15,
         repeat: -1,
         yoyo: true,
         yoyoEase: true,
-        ease: "back.inOut",
+        ease: "sine.inOut",
         delay: 2.5,
       });
       teardownKeyboard = gsap.fromTo(
@@ -282,11 +296,8 @@ const AnimatedBackground = () => {
   }, [activeSection, splineApp]);
 
   const [keyboardRevealed, setKeyboardRevealed] = useState(false);
-  const router = useRouter();
   //reveal keycaps
   useEffect(() => {
-    const hash = activeSection === "hero" ? "#" : `#${activeSection}`;
-    router.push("/" + hash, { scroll: false });
     if (!splineApp || isLoading || keyboardRevealed) return;
     revealKeyCaps();
   }, [splineApp, isLoading, activeSection]);
@@ -298,7 +309,6 @@ const AnimatedBackground = () => {
     await sleep(400);
     kbd.visible = true;
     setKeyboardRevealed(true);
-    console.log(activeSection);
     gsap.fromTo(
       kbd?.scale,
       { x: 0.01, y: 0.01, z: 0.01 },
@@ -506,7 +516,7 @@ const AnimatedBackground = () => {
           frame2.visible = false;
         }
         i++;
-      }, 100);
+      }, 200);
     };
     const stop = () => {
       clearInterval(interval);
@@ -522,19 +532,19 @@ const AnimatedBackground = () => {
     let tweens: gsap.core.Tween[] = [];
     const start = () => {
       removePrevTweens();
-      Object.values(SKILLS)
-        .sort(() => Math.random() - 0.5)
-        .forEach((skill, idx) => {
+      const skills = Object.values(SKILLS).sort(() => Math.random() - 0.5);
+      // Chỉ animate 12 keycap thay vì 24 để giảm load
+      skills.slice(0, 12).forEach((skill, idx) => {
           const keycap = splineApp.findObjectByName(skill.name);
           if (!keycap) return;
           const t = gsap.to(keycap?.position, {
             y: Math.random() * 200 + 200,
-            duration: Math.random() * 2 + 2,
-            delay: idx * 0.6,
+            duration: Math.random() * 2 + 3,
+            delay: idx * 0.8,
             repeat: -1,
             yoyo: true,
             yoyoEase: "none",
-            ease: "elastic.out(1,0.3)",
+            ease: "power2.inOut",
           });
           tweens.push(t);
         });
@@ -546,32 +556,39 @@ const AnimatedBackground = () => {
         if (!keycap) return;
         const t = gsap.to(keycap?.position, {
           y: 0,
-          duration: 4,
-          repeat: 1,
-          ease: "elastic.out(1,0.8)",
+          duration: 2,
+          ease: "power2.out",
         });
         tweens.push(t);
       });
-      setTimeout(removePrevTweens, 1000);
+      setTimeout(removePrevTweens, 2500);
     };
     const removePrevTweens = () => {
       tweens.forEach((t) => t.kill());
+      tweens = [];
     };
     return { start, stop };
   };
   return (
-    <>
+    <div
+      style={{
+        opacity: splineLoaded ? 1 : 0,
+        transition: "opacity 0.5s ease",
+        contain: "layout style paint",
+      }}
+    >
       <Suspense fallback={<div>Loading...</div>}>
         <Spline
           ref={splineContainer}
           onLoad={(app: Application) => {
             setSplineApp(app);
+            setSplineLoaded(true);
             bypassLoading();
           }}
           scene="/assets/skills-keyboard.spline"
         />
       </Suspense>
-    </>
+    </div>
   );
 };
 

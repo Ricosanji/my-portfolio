@@ -224,8 +224,16 @@ export default function Particles({
         );
       }
     });
-    window.requestAnimationFrame(animate);
+    rafId.current = window.requestAnimationFrame(animate);
   };
+
+  const rafId = useRef<number>();
+
+  useEffect(() => {
+    return () => {
+      if (rafId.current) cancelAnimationFrame(rafId.current);
+    };
+  }, []);
 
   return (
     <div
