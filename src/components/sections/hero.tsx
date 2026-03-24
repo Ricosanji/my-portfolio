@@ -13,6 +13,7 @@ import { BlurIn, BoxReveal } from "../reveal-animations";
 import ScrollDownIcon from "../scroll-down-icon";
 import { SiFacebook, SiGithub, SiLinkedin, SiMessenger } from "react-icons/si";
 import { config } from "@/data/config";
+import { File } from "lucide-react";
 
 const HeroSection = () => {
   const { isLoading } = usePreloader();
@@ -68,14 +69,14 @@ const HeroSection = () => {
               </div>
               <div className="mt-8 md:ml-2 flex flex-col gap-3">
                 <Link
-                  href={config.social.messenger}
+                  href="/assets/NguyenHuuCong-CV.pdf"
                   target="_blank"
                   className="flex-1"
                 >
                   <BoxReveal delay={2} width="100%" >
                     <Button className="flex items-center gap-2 w-full">
-                      <SiMessenger size={24} />
-                      <p>Messenger</p>
+                      <File size={24} />
+                      <p>Resume</p>
                     </Button>
                   </BoxReveal>
                 </Link>
