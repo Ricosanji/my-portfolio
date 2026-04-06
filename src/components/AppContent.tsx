@@ -10,9 +10,6 @@ import ElasticCursor from "@/components/ui/ElasticCursor";
 import Particles from "@/components/Particles";
 import EasterEggs from "@/components/easter-eggs";
 import { usePerf } from "@/providers/PerfProvider";
-import dynamic from "next/dynamic";
-
-const MusicPlayer = dynamic(() => import("@/components/MusicPlayer"), { ssr: false });
 
 export default function AppContent({ children }: { children: React.ReactNode }) {
   const { mode } = usePerf();
@@ -30,7 +27,6 @@ export default function AppContent({ children }: { children: React.ReactNode }) 
         </TooltipProvider>
         <Toaster />
         {mode !== "ultra-lite" && <ElasticCursor />}
-        {mode !== "ultra-lite" && <MusicPlayer />}
         <EasterEggs />
       </Preloader>
     </ThemeProvider>
